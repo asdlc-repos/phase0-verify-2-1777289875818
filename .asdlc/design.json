@@ -1,0 +1,23 @@
+{
+  "overview": "A minimal single-page web application that serves a static 'Hello World' message to visitors. The architecture consists of a single frontend component that delivers HTML directly to the browser without requiring backend services or APIs.",
+  "requirements": [
+    "The application must display 'Hello World' text when accessed in a web browser",
+    "The application must be accessible via HTTP/HTTPS",
+    "The application must respond with a valid HTML page",
+    "The application must include a /health endpoint for readiness checks"
+  ],
+  "components": [
+    {
+      "name": "hello-world-app",
+      "componentType": "web-app",
+      "language": "TypeScript / React",
+      "dependsOn": [],
+      "entrypoint": "deployment/web-application",
+      "buildpack": "docker",
+      "appPath": "/hello-world-app",
+      "openAPISpec": "openapi: 3.0.3\ninfo:\n  title: Hello World Web Application\n  version: 1.0.0\n  description: A simple web application that displays Hello World\npaths:\n  /:\n    get:\n      summary: Serve the main application page\n      description: Returns the HTML page displaying Hello World\n      operationId: getHomePage\n      responses:\n        '200':\n          description: Successful response with HTML content\n          content:\n            text/html:\n              schema:\n                type: string\n  /health:\n    get:\n      summary: Health check endpoint\n      description: Returns the health status of the application\n      operationId: healthCheck\n      responses:\n        '200':\n          description: Application is healthy\n          content:\n            application/json:\n              schema:\n                type: object\n                properties:\n                  status:\n                    type: string\n                    example: ok",
+      "componentAgentInstructions": "Implement a React-based single-page application using TypeScript and Vite as the build tool. Create a minimal React component that renders 'Hello World' as an h1 element centered on the page. Use create-react-app or Vite to scaffold the project. The application should serve static assets and respond on port 3000. Include a /health endpoint that returns {\"status\":\"ok\"} with HTTP 200. The Dockerfile should use a multi-stage build: first stage builds the React app using node:18-alpine, second stage serves it using nginx:alpine. Copy build output to /usr/share/nginx/html. Configure nginx to handle client-side routing and serve index.html for all routes except /health. For the health endpoint, configure nginx to return a JSON response. Ensure the application displays 'Hello World' prominently when accessed. Add basic CSS for centering and styling. The page should be responsive and work on mobile and desktop browsers. No backend dependencies required."
+    }
+  ],
+  "sourceSpec": "spec-v1"
+}
